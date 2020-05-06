@@ -134,3 +134,16 @@ class UpdatersExample(Scene):
         self.wait()
 
 # See old_projects folder for many, many more
+class FlipObject(Scene):
+    def construct(self):
+        textM = TextMobject("Text")
+        textM.flip(UP)
+        self.play(Write(textM))
+        self.wait(2)
+
+class TextOnTopEdge(Scene):
+    def construct(self):
+        text = TextMobject("Text")
+        text.to_edge(UP)
+        self.play(Write(text))
+        self.wait(3)
