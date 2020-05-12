@@ -20,7 +20,7 @@ import sympy as sympy
 #|                       TOP                        |
 #|                                                  |
 #|                                                  |
-#|LEFT_SIDE           RIGHT_SIDE          RIGHT_SIDE|
+#|LEFT_SIDE             ORIGIN            RIGHT_SIDE|
 #|                                                  |
 #|                                                  |
 #|                                                  |
@@ -613,3 +613,17 @@ class StickMan(SVGMobject):
         self.arms.set_fill(YELLOW, opacity=0)
         self.legs.set_fill(GREEN, opacity=0)
         return self
+
+
+# from manimlib.imports import *
+# import cv2
+#
+# class Images(Scene):
+#     def construct(self):
+#         img = cv2.imread('pathToImg.png')
+#         imMob = ImageMobject(img)  # Makes an image mobject of existing image
+#
+#         imMob.scale(2)
+#         imMob.shift(2 * UP)
+#
+#         self.play(ShowCreation(imMob))

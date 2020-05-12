@@ -3,7 +3,7 @@ from sympy import *
 from sympy.stats import Probability, Normal
 from sympy import Integral
 
-class Formula(Scene): 
+class BayesBelif(Scene):
     def construct(self):
         #Bel(X_t) = \eta * P(Z_t | X_t) \times \int    P(X_t | U_{t - 1}, X_{t - 1}) \times Bel(X_{t - 1})) dX_t
         bayes_equation = TexMobject(r"Bel(X_t)=",r" \eta \times P(Z_t | X_t)",r" \times \int  P(X_t | U_{t - 1}, X_{t - 1}) \times  Bel(X_{t - 1})) dX_t")
@@ -33,74 +33,10 @@ class Formula(Scene):
         self.clear()
         self.play(Write(cov_equation_tex))
 
-
-        # X \sim \mathcal{N}(\mu_0,\,\sigma_{0}^{2})\ * X \sim \mathcal{N}(\mu_1,\,\sigma_{1}^{2})\
-
-        # X \sim \mathcal{N}(\mu\prime,\,\sigma^{\prime2})\
-
-        # \sigma^{\prime2}=\sigma_{0}^{2}-\frac{\sigma_{0}^{4}}{  \sigma_{0}^{2} +\sigma_{1}^{2}   }
-
-        #\mu\prime=\mu0 +\frac{\sigma_{0}^{2}  (\mu1-\mu0))}{  \sigma_{0}^{2} +\sigma_{1}^{2}    }
-
-        # K=\frac{\sigma_{0}^{2}}{  \sigma_{0}^{2} +\sigma_{1}^{2}   }
-
-        # \sigma^{\prime2}=\sigma_{0}^{2}-K\sigma_{0}^{2}
-
-        #\mu ^ {\prime2}=\sigma_{0} ^ {2} - K(\mu_1 -\mu_0)
-
-        #A prime  A{}'
-
-        # \lim_{\sigma_{0} \to +\infty}  K=\frac{\sigma_{0}^{2}}{  \sigma_{0}^{2} +\sigma_{1}^{2}   }
-
-        # \lim_{\sigma_{0} \to 0}  K=\frac{\sigma_{0}^{2}}{  \sigma_{0}^{2} +\sigma_{1}^{2}   }
-
-        # K=\Sigma_{0}(\Sigma_{0} +\Sigma_{0} )^{-1}
-
-        # \mu\vec{}= \mu\vec{}_{0}+K(\mu\vec{}_{1} - \mu\vec{}_{0}  )
-
-        # \Sigma{}'=\Sigma_{0}-K\Sigma_{0}
-
-        #copytwoformula
-
-        #p=1/2*at^2+v_{0}t
-        #v=at+v_{0}
-        
-        
-# X_{k}=
-# \begin{bmatrix}
-#  P_{k}
-# \\ V_{k}
-# \end{bmatrix}
-
-#P_k=P_{k-1}+V_{k-1}\times t +\frac{1}{2}at^2
-    #V_{k}=V_{k-1}+a\times t
-
-
-# \^{X}_{k}=\begin{bmatrix}
-# 1 & t\\
-# 0 & 1
-# \end{bmatrix} \times \^{X}_{k-1} +\begin{bmatrix}
-# t^2\\
-# t
-# \end{bmatrix}*a
-    
-    #\^{X}_{k}=F*\^{X}_{k-1}+B\vec{U}
-
-    #P_k=F_k P_{k-1}F^\mathsf{T}_{k}+Q_{k}
-
-#correction
-# \mu_{k}=H_{k} \^{X}_{k}    
-#\Sigma_{k}=H_{} }
-#\Sigma_{k}=H_{k}P_{k} H^\mathsf{T}_{k} +R_{k}      
-    
-#K^\prime=P_{k}H_{k}^\mathsf{T}(H_{k}P_{k}H_{k}^\mathsf{T}+R_{k} )^{-1}
-#\^{X}^{'}_{k}=\^{X}_{k}+K^{'}(Z_k-H_{k}\^{X}_{k} )
-#P^{'}_k=P_k-K^{'}H_{k}P_{k}
-
 def Range(in_val,end_val,step=1):
     return list(np.arange(in_val,end_val+step,step))
 
-class normals(GraphScene):
+class NormalsDistributionsPlot(GraphScene):
     CONFIG = {
         "y_max" : 1.5,
         "y_min" : -1.5,
@@ -205,6 +141,300 @@ class normals(GraphScene):
             run_time=2
         )
 
+class NomalMultipiction(Scene):
+    def construct(self):
+
+        normal_fromula = TexMobject(r"X \sim \mathcal{N}(\mu\prime,\,\sigma^{\prime2})\ ")
+
+        self.play(Write(normal_fromula))
+        self.wait(2)
+        self.play(ApplyMethod(normal_fromula.to_edge,UP))
+
+        nomal_multipiction = TexMobject(r"X \sim \mathcal{N}(\mu_0,\,\sigma_{0}^{2})\ * X \sim \mathcal{N}(\mu_1,\,\sigma_{1}^{2})\ ")
+        self.play(Write(nomal_multipiction))
+        self.wait(2)
+        self.play(ApplyMethod(nomal_multipiction.shift, TOP+ 2*DOWN) )
+
+        sigma_prime=TexMobject(r"\sigma^{\prime2}=\sigma_{0}^{2}-\frac{\sigma_{0}^{4}}{  \sigma_{0}^{2} +\sigma_{1}^{2}   } ")
+        self.play(Write(sigma_prime))
+        self.wait(2)
+
+        mu_prime=TexMobject(r"\mu\prime=\mu_{0} +\frac{\sigma_{0}^{2}  (\mu_{1}-\mu_{0}))}{  \sigma_{0}^{2} +\sigma_{1}^{2}    }     ")
+        mu_prime.next_to(sigma_prime, DOWN)
+        self.play(Write(mu_prime))
+        self.wait(2)
+
+class NomalMultipictionRewritten(Scene):
+    def construct(self):
+        k=TexMobject(r" K=\frac{\sigma_{0}^{2}}{  \sigma_{0}^{2} +\sigma_{1}^{2}   }")
+        self.play(Write(k))
+        self.wait(2)
+
+        self.play(ApplyMethod(k.to_edge,UP) )
+        self.wait(2)
+
+        sigma_prime = TexMobject(r" \sigma^{\prime2}=\sigma_{0}^{2}-K\sigma_{0}^{2}")
+        self.play(Write(sigma_prime))
+        self.wait(2)
+        self.play(ApplyMethod(sigma_prime.shift, TOP+ 2.2*DOWN) )
 
 
 
+        mu_prime = TexMobject(r" \mu ^ {\prime}=\mu_{0}  - K(\mu_1 -\mu_0)")
+        self.play(Write(mu_prime))
+        self.wait(2)
+
+        self.play(ApplyMethod(mu_prime.shift, TOP+ 3*DOWN) )
+        self.wait(2)
+
+        sigma_0_lim_inf=TexMobject(r"\lim_{\sigma_{0} \to +\infty}  K=\frac{\sigma_{0}^{2}}{  \sigma_{0}^{2} +\sigma_{1}^{2}   }")
+        self.play(Write(sigma_0_lim_inf))
+        self.wait(2)
+
+        sigma_0_lim_0 = TexMobject( r" \lim_{\sigma_{0} \to 0}  K=\frac{\sigma_{0}^{2}}{  \sigma_{0}^{2} +\sigma_{1}^{2}   } ")
+        sigma_0_lim_0.shift(ORIGIN +  1.2*DOWN)
+        self.play(Write(sigma_0_lim_0))
+        self.wait(2)
+
+        sigma_0_lim_0_k_becomes_inf=TexMobject(r"K=1")
+        self.play(Transform(sigma_0_lim_inf, sigma_0_lim_0_k_becomes_inf) )
+        self.wait(2)
+
+        sigma_prime_becomes_1 = TexMobject(r" \sigma^{\prime2}=0")
+        sigma_prime_becomes_1.shift(sigma_0_lim_0_k_becomes_inf.get_corner(RIGHT),1.5*RIGHT)
+        self.play(Write(sigma_prime_becomes_1))
+
+        mu_prime_becomes_mu_1=TexMobject(r"\mu ^ {\prime}=\mu1")
+        mu_prime_becomes_mu_1.shift(sigma_prime_becomes_1.get_corner(RIGHT), 1.5*RIGHT)
+        self.play(Write(mu_prime_becomes_mu_1))
+
+
+
+        sigma_0_lim_0_k_becomes_0=TexMobject(r"K=0")
+        sigma_0_lim_0_k_becomes_0.shift(ORIGIN + 1.2 * DOWN)
+        self.play(Transform(sigma_0_lim_0, sigma_0_lim_0_k_becomes_0) )
+        self.wait(2)
+
+        sigma_prime_becomes_sigma_o = TexMobject(r" \sigma^{\prime2}=\sigma_{0}^{2}")
+        sigma_prime_becomes_sigma_o.shift(sigma_0_lim_0_k_becomes_0.get_corner(RIGHT), 1.5*RIGHT)
+        self.play(Write(sigma_prime_becomes_sigma_o))
+
+        mu_prime_becomes_mu_0 = TexMobject(r"\mu ^ {\prime}=\mu0")
+        mu_prime_becomes_mu_0.shift(sigma_prime_becomes_sigma_o.get_corner(RIGHT), 1.5*RIGHT)
+        self.play(Write(mu_prime_becomes_mu_0))
+        self.wait(2)
+
+class NomalMultipictionMultiDimension(Scene):
+    def construct(self):
+
+        k=TexMobject(r"K=\Sigma_{0}(\Sigma_{0} +\Sigma_{0} )^{-1}")
+        self.play(Write(k))
+        self.wait(2)
+        self.play(ApplyMethod(k.shift, TOP + 1 * DOWN))
+
+
+
+        mu=TexMobject(r"\mu\vec{}= \mu\vec{}_{0}+K(\mu\vec{}_{1} - \mu\vec{}_{0}  )")
+        self.play(Write(mu))
+        self.wait(2)
+        self.play(ApplyMethod(mu.shift, TOP + 2 * DOWN))
+
+
+        sigma=TexMobject(r"\Sigma{}'=\Sigma_{0}-K\Sigma_{0}")
+        self.play(Write(sigma))
+        self.wait(2)
+        self.play(ApplyMethod(sigma.shift, TOP + 3 * DOWN))
+        self.wait(2)
+
+class KinematicExample(Scene):
+    def construct(self):
+        position_and_velocity_title = TexMobject(r"\text{Position And Velocity}")
+        position_and_velocity_title.to_edge(UL )#= UP + LEFT
+        self.play(Write(position_and_velocity_title))
+
+        position=TexMobject(r"p=p_{0}+\frac{1}{2}*  at^2+v_{0}t")
+        position.shift(position_and_velocity_title.get_corner(DOWN)+DOWN )
+        position.to_edge(LEFT_SIDE)
+        self.play(Write(position))
+
+
+        velocity=TexMobject(r" v=at+v_{0}")
+        velocity.shift(position_and_velocity_title.get_corner(DOWN) + 2*DOWN )
+        velocity.to_edge(LEFT_SIDE  )
+        self.play(Write(velocity))
+        self.wait(2)
+
+
+
+        state_space = TexMobject(r"\text{State Space}")
+        state_space.to_edge(LEFT )#= UP + LEFT
+        self.play(Write(state_space))
+        self.wait(2)
+
+
+        x_k = TexMobject(r"X_{k}= \begin{bmatrix} P_{k}  \\ V_{k} \end{bmatrix} " )
+        x_k.shift(state_space.get_corner(DOWN) + DOWN)
+        x_k.to_edge(LEFT_SIDE)
+        self.play(Write(x_k))
+
+
+
+
+        p_k = TexMobject(r"P_k=P_{k-1}+V_{k-1} t +\frac{1}{2}at^2 ")
+        p_k.shift(position_and_velocity_title.get_corner(DOWN) + DOWN)
+        p_k.to_edge(LEFT_SIDE)
+
+        self.play(Transform(position,p_k))
+
+        v_k = TexMobject(r"V_{k}=V_{k-1}+a\times t ")
+        v_k.shift(position_and_velocity_title.get_corner(DOWN) + 2*DOWN )
+        v_k.to_edge(LEFT_SIDE  )
+        self.play(Transform(velocity, v_k))
+
+class KinematicPredictionMatrixForm(Scene):
+    def construct(self):
+        position_and_velocity_title = TexMobject(r"\text{Matrix Representation Of Position And Velocity}")
+        position_and_velocity_title.to_edge(UL )#= UP + LEFT
+        self.play(Write(position_and_velocity_title))
+        x_k_hat = TexMobject( r"\hat{X}_{k}=\begin{bmatrix} 1 & t\\ 0 & 1 \end{bmatrix}  \hat{X}_{k-1} +\begin{bmatrix} t^2\\ t \end{bmatrix}a")
+        x_k_hat.shift(position_and_velocity_title.get_corner(DOWN)+DOWN )
+        x_k_hat.to_edge(LEFT_SIDE)
+        self.play(Write(x_k_hat))
+
+
+        x_k_hat_matrix_form = TexMobject(r"\hat{X}_{k}=" , r"F",r"\hat{X}_{k-1}+",r"B",r"\vec{U}")
+        x_k_hat_matrix_form.shift(position_and_velocity_title.get_corner(DOWN)+3*DOWN )
+        x_k_hat_matrix_form.to_edge(LEFT_SIDE)
+
+        self.play(Write(x_k_hat_matrix_form))
+        self.wait(3)
+
+        brace_text_scale=0.60
+
+        x_k_hat_brace_bottom = Brace(x_k_hat_matrix_form[0], DOWN, buff=MED_SMALL_BUFF)
+        x_k_hat_brace_bottom_text = x_k_hat_brace_bottom.get_text(r"$State Prior$")
+        x_k_hat_brace_bottom_text.scale_in_place(brace_text_scale)
+
+        self.play(GrowFromCenter(x_k_hat_brace_bottom))
+        self.play(FadeIn(x_k_hat_brace_bottom_text))
+
+
+
+        f = Brace(x_k_hat_matrix_form[1], TOP, buff=MED_SMALL_BUFF)
+        f_top_text = f.get_text(r"$\text{Prediction Matrix}$")
+        f_top_text.scale_in_place(brace_text_scale)
+
+        self.play(GrowFromCenter(f))
+        self.play(FadeIn(f_top_text))
+
+
+
+        b = Brace(x_k_hat_matrix_form[3], DOWN, buff=MED_SMALL_BUFF)
+        b_bottom_text = b.get_text(r"$\text{Control Matrix$}")
+        b_bottom_text.scale_in_place(brace_text_scale)
+
+        self.play(GrowFromCenter(b))
+        self.play(FadeIn(b_bottom_text))
+
+
+        u = Brace(x_k_hat_matrix_form[4], TOP, buff=MED_SMALL_BUFF)
+        u_top_text = u.get_text(r"$\text{Control  Vetor}$")
+        u_top_text.scale_in_place(brace_text_scale)
+
+        self.play(GrowFromCenter(u))
+        self.play(FadeIn(u_top_text))
+
+
+
+        p_k_matrix_form = TexMobject(r"P_k","=F_k P_{k-1}F^\mathsf{T}_{k}+","Q_{k} ")
+        p_k_matrix_form.shift(position_and_velocity_title.get_corner(DOWN) + 5 * DOWN)
+
+        p_k_matrix_form.to_edge(LEFT_SIDE)
+        self.play(Write(p_k_matrix_form))
+
+
+
+        p_k = Brace(p_k_matrix_form[0], BOTTOM, buff=MED_SMALL_BUFF)
+        p_k_text = p_k.get_text(r"$\text{Prior Error Covariance}$")
+        p_k_text.scale_in_place(brace_text_scale)
+        self.play(GrowFromCenter(p_k))
+        self.play(FadeIn(p_k_text))
+
+
+        q_k = Brace(p_k_matrix_form[2], BOTTOM, buff=MED_SMALL_BUFF)
+        q_k_text = q_k.get_text(r"$\text{Process Noise}$")
+        q_k_text.scale_in_place(brace_text_scale)
+        self.play(GrowFromCenter(q_k))
+        self.play(FadeIn(q_k_text))
+
+        self.wait(3)
+
+class KinematicMeasurmentMatrixForm(Scene):
+    def construct(self):
+
+        measurment_title = TexMobject(r"\text{Measurment Update}")
+        measurment_title.to_edge(UL )#= UP + LEFT
+        self.play(Write(measurment_title))
+
+        #correction=
+        mean=TexMobject(r"\mu_{k}=","H_{k}", "\hat{X}_{k}")
+        mean.shift(measurment_title.get_corner(DOWN)+DOWN)
+        self.play(Write(mean))
+        self.wait(2)
+
+        brace_text_scale=0.6
+
+        h_k = Brace(mean[1], BOTTOM, buff=MED_SMALL_BUFF)
+        h_k_text = h_k.get_text(r"$\text{Measurment Matrix}$")
+        h_k_text.scale_in_place(brace_text_scale)
+        self.play(GrowFromCenter(h_k))
+        self.play(FadeIn(h_k_text))
+
+
+
+
+
+        cov = TexMobject(r"\Sigma_{k}=H_{k}P_{k} H^\mathsf{T}_{k} +","R_{k} ")
+        cov.shift(mean.get_corner(DOWN)+2*DOWN)
+        self.play(Write(cov))
+        self.wait(2)
+
+
+
+        R_k = Brace(cov[1], BOTTOM, buff=MED_SMALL_BUFF)
+        R_k_text = R_k.get_text(r"$\text{Measurment Noise}$")
+        R_k_text.scale_in_place(brace_text_scale)
+        self.play(GrowFromCenter(R_k))
+        self.play(FadeIn(R_k_text))
+        self.wait(2)
+
+
+class Fusion(Scene):
+    def construct(self):
+        fusion_title = TexMobject(r"\text{Data Fusion}")
+        fusion_title.to_edge(UL)  # = UP + LEFT
+        self.play(Write(fusion_title))
+
+
+        k_prime = TexMobject(r"""K^\prime=P_{k}H_{k}^\mathsf{T}(H_{k}P_{k}H_{k}^\mathsf{T}+R_{k} )^{-1}""")
+        k_prime.shift(fusion_title.get_corner(DOWN)+DOWN)
+        k_prime.to_edge(LEFT_SIDE)
+        self.play(Write(k_prime))
+        self.wait(2)
+
+
+        #new mean
+        x_k_hat_prime=TexMobject(r"\hat{X}^{'}_{k}=\hat{X}_{k}+K^{'}(Z_k-H_{k}\hat{X}_{k} )")
+        x_k_hat_prime.shift(k_prime.get_corner(DOWN)+2*DOWN )
+        x_k_hat_prime.to_edge(LEFT_SIDE)
+        self.play(Write(x_k_hat_prime))
+        self.wait(2)
+
+
+
+        # new cov
+        p_k_prime=TexMobject(r"P^{'}_k=P_k-K^{'}H_{k}P_{k}")
+        p_k_prime.shift(k_prime.get_corner(DOWN)+4*DOWN )
+        p_k_prime.to_edge(LEFT_SIDE)
+        self.play(Write(p_k_prime))
+        self.wait(2)
